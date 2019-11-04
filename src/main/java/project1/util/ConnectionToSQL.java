@@ -14,11 +14,19 @@ public class ConnectionToSQL {
 		
 		// Note: JDBC url has a specific format
 		//  jdbc:database-type://network-location:port/internal-database
+		String user = System.getenv("H_ROLE");
+		String pw = System.getenv("H_PASS");
+		String aws = "jdbc:postgresql://database-1.c6vmcdm1hagz.us-east-2.rds.amazonaws.com:5432/postgres"
+				+ "?user=" + user + "&password=" + pw;
+		
 		String url = "jdbc:postgresql://localhost:5432/postgres";
 		try {
 			Connection conn = DriverManager.getConnection(url, 
 								System.getenv("VENDOR_ROLE"), 
 								System.getenv("VENDOR_PASS"));
+
+//			Connection conn = DriverManager.getConnection(aws);			;
+			
 			return conn;
 		} catch (SQLException e) {
 			e.printStackTrace();
