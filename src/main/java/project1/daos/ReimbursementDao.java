@@ -2,6 +2,7 @@ package project1.daos;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import project1.model.Reimbursement;
@@ -38,9 +39,9 @@ public class ReimbursementDao {
 			PreparedStatement s = conn.prepareStatement(cmd);
 			s.setInt(1, employ_id);
 
-			ResultSet check = s.executeUpdate();
+			ResultSet check = s.executeQuery();
 			
-			if(check > 0) {
+			if(check.next()) {
 				System.out.println("SQL inserted");
 			}
 		} catch (SQLException e) {

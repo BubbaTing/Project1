@@ -24,11 +24,13 @@ public class ResponseServlet extends HttpServlet {
 		super.service(request, response);
 	}
 
-	public void doGet(HttpServletRequest request, HttpServletResponse response) 
+	public void doPost(HttpServletRequest request, HttpServletResponse response) 
 		throws ServletException, JsonParseException, JsonMappingException, IOException{
 		ObjectMapper om = new ObjectMapper();
 		User employee = om.readValue(request.getReader(), User.class);
 		System.out.println(employee.toString());
+		
+		
 		
 		om.writeValue(response.getWriter(), employee);
 		
