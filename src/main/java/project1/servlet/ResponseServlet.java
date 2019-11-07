@@ -11,7 +11,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import project1.model.User;
+import project1.daos.ReimbursementDao;
+import project1.model.Reimbursement;
 
 public class ResponseServlet extends HttpServlet {
 	public void service(HttpServletRequest request,
@@ -23,13 +24,18 @@ public class ResponseServlet extends HttpServlet {
 		response.setHeader("Access-Control-Allow-Headers", "content-type");
 		super.service(request, response);
 	}
+	
+	ReimbursementDao crate = new ReimbursementDao();
 
-	public void doGet(HttpServletRequest request, HttpServletResponse response) 
+	public void doPost(HttpServletRequest request, HttpServletResponse response) 
 		throws ServletException, JsonParseException, JsonMappingException, IOException{
 		ObjectMapper om = new ObjectMapper();
-		User employee = om.readValue(request.getReader(), User.class);
-		System.out.println(employee.toString());
+		Reimbursement employee = om.readValue(request.getReader(), Reimbursement.class);
+		System.out.println("From client:\t" + employee.toString());
 		
+		employee = crate.viewEmployeeRequest(employee.getAuthor());
+		
+		System.out.println("From SQL:\t" + employee.toString());
 		om.writeValue(response.getWriter(), employee);
 		
 	}

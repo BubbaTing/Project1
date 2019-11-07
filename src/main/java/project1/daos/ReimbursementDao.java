@@ -2,6 +2,7 @@ package project1.daos;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import project1.model.Reimbursement;
@@ -32,20 +33,31 @@ public class ReimbursementDao {
 		}
 	}
 	
-	public void viewEmployeeRequest(int employ_id) {
+	public Reimbursement viewEmployeeRequest(int employ_id) {
 		try (Connection conn = ConnectionToSQL.getConnection()){
 			String cmd = "select * from ers_reimbursement where reimb_author = ?";
 			PreparedStatement s = conn.prepareStatement(cmd);
 			s.setInt(1, employ_id);
-
-			ResultSet check = s.executeUpdate();
-			
-			if(check > 0) {
-				System.out.println("SQL inserted");
+			ResultSet check = s.executeQuery();
+			Reimbursement container = new Reimbursement();
+			if(check.next()) {
+				container.setReimb_id(check.getInt("reimb_id"));
+				container.setAmount(check.getBigDecimal("amount"));
+				container.setSubmit(check.getString("reimb_submitted"));
+				container.setResolve(check.getString("reimb_resolved"));
+				container.setDescription(check.getString("reimb_description"));
+				container.setPic(check.getString("reimb_recipt"));
+				container.setAuthor(check.getInt("reimb_author"));
+				container.setResolver(check.getInt("reimb_reolver"));
+				container.setStatus(check.getInt("reimb_status"));
+				container.setType(check.getInt("reimb_type"));
+				return container;
 			}
+			return null;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 }
