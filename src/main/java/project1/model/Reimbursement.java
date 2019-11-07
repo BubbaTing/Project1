@@ -22,8 +22,8 @@ public class Reimbursement {
 	public BigDecimal getAmount() {
 		return amount;
 	}
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
+	public void setAmount(BigDecimal i) {
+		this.amount = i;
 	}
 	public String getSubmit() {
 		return submit;
