@@ -12,20 +12,23 @@ import project1.util.ConnectionToSQL;
 public class ReimbursementDao {
 	
 	public void newRequest(Reimbursement input) {
-		try (Connection conn = ConnectionToSQL.getConnection()){
+		try (Connection conn = ConnectionToSQL.getConnection()) {
 			String cmd = "insert into ers_reimbursement"
 					+ "(reimb_amount, reimb_submitted, reimb_description,"
 					+ " reimb_recipt, reimb_author, reimb_status_id, reimb_type_id)"
-					+ "	values(?, current_date, ?, ?::bytea, 7, 3, ?)";
-			PreparedStatement s = conn.prepareStatement(cmd);
-			s.setBigDecimal(1, input.getAmount());
-			s.setString(2, input.getDescription());
-			s.setString(3, input.getPic());
-			//s.setInt(4, input.getAuthor());
-			s.setInt(4,input.getType());
-			int check = s.executeUpdate();
+					+ "	values(?, current_date, ?, ?::bytea, ?, 3, ?)";
 			
-			if(check > 0) {
+			PreparedStatement reimbursementQuery = conn.prepareStatement(cmd);
+			
+			reimbursementQuery.setBigDecimal(1, input.getAmount());
+			reimbursementQuery.setString(2, input.getDescription());
+			reimbursementQuery.setString(3, input.getPic());
+			reimbursementQuery.setInt(4, input.getAuthor());
+			reimbursementQuery.setInt(5, input.getType());
+			
+			int check = reimbursementQuery.executeUpdate();
+			
+			if (check > 0) {
 				System.out.println("SQL inserted");
 			}
 		} catch (SQLException e) {
