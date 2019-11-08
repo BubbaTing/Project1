@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import project1.daos.ReimbursementDao;
 import project1.model.Reimbursement;
+import project1.model.User;
 
 public class ResponseServlet extends HttpServlet {
 	public void init() throws ServletException{
@@ -41,10 +42,10 @@ public class ResponseServlet extends HttpServlet {
 		ObjectMapper om = new ObjectMapper();
 		ArrayList<Reimbursement> employee = new ArrayList<Reimbursement>();
 		
-		Reimbursement user = om.readValue(request.getReader(), Reimbursement.class);
+		User user = om.readValue(request.getReader(), User.class);
 		System.out.println("From client:\t" + employee.toString());
 		
-		employee = crate.viewEmployeeRequest(user.getAuthor());
+		employee = crate.viewEmployeeRequest(user.getId());
 		
 		System.out.println("From SQL:");
 		for(Reimbursement i: employee) {
