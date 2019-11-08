@@ -93,7 +93,7 @@ public class ReimbursementDao {
 
 	public void updateRequest(int author, int status) {
 		try (Connection conn = ConnectionToSQL.getConnection()){
-			String cmd = "update ers_reimbursement set reimb_status_id = ? where reimb_id = ?; ";
+			String cmd = "update ers_reimbursement set reimb_status_id = ?, reimb_resolved = current_date where reimb_id = ?; ";
 			PreparedStatement s = conn.prepareStatement(cmd);
 			s.setInt(1, author);
 			s.setInt(2, status);
