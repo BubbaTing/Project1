@@ -63,31 +63,48 @@ public class ReimbursementDao {
 	}
 	
 	//Manager function
-	public Reimbursement viewAllRequest() {
+	public ArrayList<Reimbursement> viewAllRequest() {
 		try (Connection conn = ConnectionToSQL.getConnection()){
 			String cmd = "select * from ers_reimbursement";
 			PreparedStatement s = conn.prepareStatement(cmd);
 			ResultSet check = s.executeQuery();
-			Reimbursement container = new Reimbursement();
+			ArrayList<Reimbursement> list = new ArrayList<Reimbursement>();
 			
-			if(check.next()) {
+			while(check.next()) {
+				Reimbursement container = new Reimbursement();
 				container.setReimb_id(check.getInt("reimb_id"));
-				container.setAmount(check.getBigDecimal("amount"));
+				container.setAmount(check.getBigDecimal("reimb_amount"));
 				container.setSubmit(check.getString("reimb_submitted"));
 				container.setResolve(check.getString("reimb_resolved"));
 				container.setDescription(check.getString("reimb_description"));
 				container.setPic(check.getString("reimb_recipt"));
 				container.setAuthor(check.getInt("reimb_author"));
 				container.setResolver(check.getInt("reimb_reolver"));
-				container.setStatus(check.getInt("reimb_status"));
-				container.setType(check.getInt("reimb_type"));
-				return container;
+				container.setStatus(check.getInt("reimb_status_id"));
+				container.setType(check.getInt("reimb_type_id"));
+				list.add(container);
 			}
-			return null;
+			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public void updateRequest(int author, int status) {
+		try (Connection conn = ConnectionToSQL.getConnection()){
+			String cmd = "update ers_reimbursement set reimb_status_id = ? where reimb_id = ?; ";
+			PreparedStatement s = conn.prepareStatement(cmd);
+			s.setInt(1, author);
+			s.setInt(2, status);
+			int check = s.executeUpdate();
+			
+			if(check > 0) {
+				System.out.println("Update success");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 
