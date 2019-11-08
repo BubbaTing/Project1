@@ -1,6 +1,7 @@
 package project1.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,6 +16,14 @@ import project1.daos.ReimbursementDao;
 import project1.model.Reimbursement;
 
 public class ResponseServlet extends HttpServlet {
+	public void init() throws ServletException{
+		try {
+			Class.forName("org.postgresql.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void service(HttpServletRequest request,
 			HttpServletResponse response) throws
 		IOException, ServletException{
@@ -30,12 +39,19 @@ public class ResponseServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) 
 		throws ServletException, JsonParseException, JsonMappingException, IOException{
 		ObjectMapper om = new ObjectMapper();
-		Reimbursement employee = om.readValue(request.getReader(), Reimbursement.class);
+		ArrayList<Reimbursement> employee = new ArrayList<Reimbursement>();
+		
+		Reimbursement user = om.readValue(request.getReader(), Reimbursement.class);
 		System.out.println("From client:\t" + employee.toString());
 		
-		employee = crate.viewEmployeeRequest(employee.getAuthor());
+		employee = crate.viewEmployeeRequest(user.getAuthor());
 		
-		System.out.println("From SQL:\t" + employee.toString());
+		System.out.println("From SQL:");
+		for(Reimbursement i: employee) {
+			int n = 0;
+			System.out.println(n + "..." + i.toString());
+			n++;
+		}
 		om.writeValue(response.getWriter(), employee);
 		
 	}
