@@ -40,7 +40,7 @@ public class ReimbursementDao {
 			s.setInt(1, employ_id);
 			ResultSet check = s.executeQuery();
 			Reimbursement container = new Reimbursement();
-			if(check.next()) {
+			while(check.next()) {
 				container.setReimb_id(check.getInt("reimb_id"));
 				container.setAmount(check.getBigDecimal("amount"));
 				container.setSubmit(check.getString("reimb_submitted"));
