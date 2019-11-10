@@ -43,7 +43,6 @@ public class UpdateServlet extends HttpServlet {
 		
 		System.out.println("From client:\t" + user.toString());
 		
-		crate.updateRequest(user.getReimb_id(), user.getStatus());
-		
+		crate.updateRequest(user.getReimb_id(), user.getStatus(), user.getResolver());
 	}
 }

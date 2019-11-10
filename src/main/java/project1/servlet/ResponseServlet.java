@@ -39,6 +39,7 @@ public class ResponseServlet extends HttpServlet {
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) 
 		throws ServletException, JsonParseException, JsonMappingException, IOException{
+		int n = 0;
 		ObjectMapper om = new ObjectMapper();
 		ArrayList<Reimbursement> employee = new ArrayList<Reimbursement>();
 		
@@ -49,7 +50,6 @@ public class ResponseServlet extends HttpServlet {
 		
 		System.out.println("From SQL:");
 		for(Reimbursement i: employee) {
-			int n = 0;
 			System.out.println(n + "..." + i.toString());
 			n++;
 		}

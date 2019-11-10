@@ -46,6 +46,9 @@ public class LoginServlet extends HttpServlet {
 		String password = employee.getPassword();
 		String username = employee.getUsername();
 		
+		//hashing password
+		
+		
 		if(userService.verify(password)) {
 			System.out.println("This is working");
 			employee = userService.gatherInformation(username, password);
