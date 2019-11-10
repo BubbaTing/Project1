@@ -54,4 +54,32 @@ public class UserDao {
 		return null;
 	}
 
+	
+	//make a function to update the database with hash password
+
+	public void hashedPassword(String password) {
+
+		try(Connection conn = ConnectionToSQL.getConnection()){
+			
+			
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

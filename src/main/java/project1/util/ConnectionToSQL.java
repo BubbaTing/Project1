@@ -23,11 +23,11 @@ public class ConnectionToSQL {
 		
 		String url = "jdbc:postgresql://localhost:5432/postgres";
 		try {
-			Connection conn = DriverManager.getConnection(url, 
-								System.getenv("VENDOR_ROLE"), 
-								System.getenv("VENDOR_PASS"));
+//			Connection conn = DriverManager.getConnection(url, 
+//								System.getenv("H_ROLE"), 
+//								System.getenv("H_PASS"));
 
-//			Connection conn = DriverManager.getConnection(aws);
+			Connection conn = DriverManager.getConnection(aws);
 			
 			return conn;
 		} catch (SQLException e) {
