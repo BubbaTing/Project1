@@ -1,6 +1,7 @@
 package project1.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -31,10 +32,11 @@ public class ResponseServlet extends HttpServlet {
 		throws ServletException, JsonParseException, JsonMappingException, IOException{
 		int n = 0;
 		ObjectMapper om = new ObjectMapper();
-		Reimbursement employee = om.readValue(request.getReader(), Reimbursement.class);
-		System.out.println("From client:\t" + employee.toString());
-
-		employee = crate.viewEmployeeRequest(employee.getAuthor());
+		Reimbursement user = om.readValue(request.getReader(), Reimbursement.class);
+		System.out.println("From client:\t" + user.toString());
+		ArrayList<Reimbursement> employee = new ArrayList<Reimbursement>();
+		
+		employee = crate.viewEmployeeRequest(user.getAuthor());
 
 		System.out.println("From SQL:");
 		for(Reimbursement i: employee) {

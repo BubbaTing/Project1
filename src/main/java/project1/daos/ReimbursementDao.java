@@ -34,14 +34,15 @@ public class ReimbursementDao {
 		}
 	}
 
-	public Reimbursement viewEmployeeRequest(int employ_id) {
+	public ArrayList<Reimbursement> viewEmployeeRequest(int employ_id) {
 		try (Connection conn = ConnectionToSQL.getConnection()){
 			String cmd = "select * from ers_reimbursement where reimb_author = ?";
 			PreparedStatement s = conn.prepareStatement(cmd);
 			s.setInt(1, employ_id);
 			ResultSet check = s.executeQuery();
-			Reimbursement container = new Reimbursement();
+			ArrayList<Reimbursement> list = new ArrayList<Reimbursement>();
 			while(check.next()) {
+				Reimbursement container = new Reimbursement();
 				container.setReimb_id(check.getInt("reimb_id"));
 				container.setAmount(check.getBigDecimal("amount"));
 				container.setSubmit(check.getString("reimb_submitted"));
@@ -52,9 +53,9 @@ public class ReimbursementDao {
 				container.setResolver(check.getInt("reimb_reolver"));
 				container.setStatus(check.getInt("reimb_status"));
 				container.setType(check.getInt("reimb_type"));
-				return container;
+				list.add(container);
 			}
-			return null;
+			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
