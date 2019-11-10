@@ -14,8 +14,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import project1.daos.ReimbursementDao;
 import project1.model.Reimbursement;
+import project1.model.User;
 
 public class ResponseServlet extends HttpServlet {
+	public void init() throws ServletException{
+		try {
+			Class.forName("org.postgresql.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void service(HttpServletRequest request,
 			HttpServletResponse response) throws
 		IOException, ServletException{
@@ -32,11 +41,11 @@ public class ResponseServlet extends HttpServlet {
 		throws ServletException, JsonParseException, JsonMappingException, IOException{
 		int n = 0;
 		ObjectMapper om = new ObjectMapper();
-		Reimbursement user = om.readValue(request.getReader(), Reimbursement.class);
+		User user = om.readValue(request.getReader(), User.class);
 		System.out.println("From client:\t" + user.toString());
 		ArrayList<Reimbursement> employee = new ArrayList<Reimbursement>();
 		
-		employee = crate.viewEmployeeRequest(user.getAuthor());
+		employee = crate.viewEmployeeRequest(user.getId());
 
 		System.out.println("From SQL:");
 		for(Reimbursement i: employee) {
