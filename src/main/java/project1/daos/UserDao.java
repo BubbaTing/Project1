@@ -69,6 +69,12 @@ public class UserDao {
 			s.setString(1, password);
 			s.setString(2, username);
 			
+			int n = s.executeUpdate();
+			
+			if(n>0) {
+				System.out.println("hashed password updated");
+			}
+			
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
