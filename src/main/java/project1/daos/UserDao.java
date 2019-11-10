@@ -57,11 +57,17 @@ public class UserDao {
 	
 	//make a function to update the database with hash password
 
-	public void hashedPassword(String password) {
+	public void hashedPassword(String password, String username) {
 
 		try(Connection conn = ConnectionToSQL.getConnection()){
 			
+			//String cmd = "select * from ers_users where ers_password = ?";
+			String cmd = "update ers_users set ers_password = ? "
+					+ "where ers_username = ?";
 			
+			PreparedStatement s = conn.prepareStatement(cmd);
+			s.setString(1, password);
+			s.setString(2, username);
 			
 		}catch (SQLException e) {
 			e.printStackTrace();
