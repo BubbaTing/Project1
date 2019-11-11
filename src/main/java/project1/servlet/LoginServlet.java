@@ -3,6 +3,7 @@ package project1.servlet;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import project1.daos.UserDao;
+import project1.model.Reimbursement;
 import project1.model.User;
 
 public class LoginServlet extends HttpServlet {
@@ -45,24 +47,36 @@ public class LoginServlet extends HttpServlet {
 		//System.out.println(employee.toString());
 		//System.out.println("2." + employee.getPassword());
 		
+		//hashing password
 		String password = generateHash( employee.getPassword());
-		System.out.println(password);
+		//System.out.println(password);
 		userService.hashedPassword(password, employee.getUsername());
 		String username = employee.getUsername();
 		
-		//hashing password
 		
 		
 		if(userService.verify(password)) {
-			System.out.println("This is working");
+			//System.out.println("This is working");
 			employee = userService.gatherInformation(username, password);
-			System.out.println(employee.toString());
+			//System.out.println(employee.toString());
 			om.writeValue(response.getWriter(), employee);
 		} else {
 			System.out.println("This is not working");
 			System.out.println(employee.toString());
 			om.writeValue(response.getWriter(), employee);
 		}
+	}
+	
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws
+		IOException, ServletException{
+		System.out.println("This is the get method in the LoginServlet");
+		ArrayList<User> employee = new ArrayList<User>();
+		UserDao userService = new UserDao();
+		employee = userService.getFristName();
+		
+		ObjectMapper om = new ObjectMapper();
+		om.writeValue(response.getWriter(), employee);
 	}
 
 	private String generateHash(String password) {

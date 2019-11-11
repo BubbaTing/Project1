@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import project1.model.User;
 import project1.util.ConnectionToSQL;
@@ -78,6 +79,28 @@ public class UserDao {
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+
+	public ArrayList<User> getFristName() {
+		try(Connection conn = ConnectionToSQL.getConnection()){
+			ArrayList<User> list = new ArrayList<User>();
+			String sql = "select user_first_name, ers_user_id from ers_users";
+			PreparedStatement s = conn.prepareStatement(sql);
+			ResultSet r = s.executeQuery();
+			
+			while(r.next()) {
+				User container = new User();
+				container.setId(r.getInt("ers_user_id"));
+				container.setFirstName(r.getString("user_first_name"));
+				list.add(container);
+			}
+			
+			return list;
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }
